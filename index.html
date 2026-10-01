@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Willkommen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #eef2ff;
+      --bg-2: #fdf2f8;
+      --card: rgba(255, 255, 255, 0.75);
+      --text: #1e1b4b;
+      --muted: #4b5563;
+      --accent-1: #6366f1;
+      --accent-2: #ec4899;
+      --border: rgba(99, 102, 241, 0.15);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-1: #0f172a;
+        --bg-2: #1e1b4b;
+        --card: rgba(30, 27, 75, 0.6);
+        --text: #f1f5f9;
+        --muted: #cbd5e1;
+        --border: rgba(165, 180, 252, 0.2);
+      }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      overflow-x: hidden;
+    }
+
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      z-index: 0;
+      animation: float 12s ease-in-out infinite;
+    }
+
+    .blob.one {
+      width: 320px;
+      height: 320px;
+      background: var(--accent-1);
+      top: -80px;
+      left: -80px;
+    }
+
+    .blob.two {
+      width: 280px;
+      height: 280px;
+      background: var(--accent-2);
+      bottom: -60px;
+      right: -60px;
+      animation-delay: -6s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(30px, 20px); }
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      max-width: 560px;
+      width: 100%;
+      padding: 48px 36px;
+      text-align: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 20px 60px rgba(30, 27, 75, 0.15);
+      animation: fadeIn 0.8s ease-out both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .wave {
+      display: inline-block;
+      font-size: 3rem;
+      animation: wave 2.4s ease-in-out infinite;
+      transform-origin: 70% 70%;
+    }
+
+    @keyframes wave {
+      0%, 60%, 100% { transform: rotate(0deg); }
+      10%, 30% { transform: rotate(14deg); }
+      20% { transform: rotate(-8deg); }
+      40% { transform: rotate(-4deg); }
+      50% { transform: rotate(10deg); }
+    }
+
+    h1 {
+      margin: 16px 0 12px;
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    #greeting {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    p.lead {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 999px;
+      font: inherit;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(236, 72, 153, 0.4);
+    }
+
+    footer {
+      margin-top: 32px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .blob, .wave, .card { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="blob one"></div>
+  <div class="blob two"></div>
+
+  <main class="card">
+    <span class="wave" aria-hidden="true">👋</span>
+    <h1>Herzlich willkommen!</h1>
+    <p id="greeting">Schön, dass du da bist.</p>
+    <p class="lead">
+      Dies ist eine kleine, einfache Webseite – gemacht, um dich freundlich zu begrüßen.
+      Lehn dich zurück und genieße deinen Besuch.
+    </p>
+    <button class="button" id="hello-btn" type="button">Hallo sagen</button>
+    <footer id="date"></footer>
+  </main>
+
+  <script>
+    const hour = new Date().getHours();
+    let greeting = "Guten Abend";
+    if (hour < 5) greeting = "Gute Nacht";
+    else if (hour < 11) greeting = "Guten Morgen";
+    else if (hour < 18) greeting = "Guten Tag";
+    document.getElementById("greeting").textContent = greeting + " – schön, dass du da bist!";
+
+    document.getElementById("date").textContent = new Date().toLocaleDateString("de-DE", {
+      weekday: "long", year: "numeric", month: "long", day: "numeric"
+    });
+
+    const messages = ["Hallo! 😊", "Servus! 🙌", "Moin! 🌊", "Grüß Gott! 🏔️", "Hey du! ✨"];
+    let i = 0;
+    document.getElementById("hello-btn").addEventListener("click", (e) => {
+      e.target.textContent = messages[i % messages.length];
+      i++;
+    });
+  </script>
+</body>
+</html>
